@@ -12,6 +12,49 @@
   flex-direction: column;
 }
 
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f5e7c8; /* Kirkas väri korjaa mustan fontin ongelman */
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.5px;
+}
+
+#cheat-sheet-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #efe6d3;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.08s;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+#cheat-sheet-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-50%) scale(1.1); }
+#cheat-sheet-btn:active { transform: translateY(-50%) scale(0.9); }
+
 #holdem-main {
   display: flex;
   flex-direction: column;
@@ -22,7 +65,7 @@
 
 #holdem-info {
   text-align: center;
-  height: 60px;
+  min-height: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,6 +82,16 @@
 }
 .msg-correct { color: #6cf !important; }
 .msg-wrong { color: #ff8a7a !important; }
+
+#holdem-explanation {
+  font-size: 1rem;
+  color: #ffd966;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  font-weight: 500;
+}
+#holdem-explanation.hidden {
+  display: none;
+}
 
 #next-round-btn {
   background: #ffd966;
@@ -96,7 +149,6 @@
   gap: 4px;
 }
 
-/* Yliajetaan Pyramidin lokaatiot Holdemissa ja annetaan korteille omat koot */
 .holdem-cards .card-wrapper, 
 #community-area .card-wrapper {
   position: relative;
@@ -122,4 +174,66 @@
 .holdem-player.wrong {
   border-color: #ff8a7a;
   background: rgba(255, 138, 122, 0.1);
+}
+
+/* Lunttilappu - Cheat Sheet paneeli */
+#cheat-sheet {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  max-width: 80%;
+  height: 100vh;
+  background: rgba(15, 35, 25, 0.95);
+  backdrop-filter: blur(10px);
+  border-left: 1px solid rgba(255,255,255,0.1);
+  padding: 24px;
+  color: #efe6d3;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 2000;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.5);
+  overflow-y: auto;
+}
+#cheat-sheet.open {
+  transform: translateX(0);
+}
+.cheat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.cheat-header h3 {
+  margin: 0;
+  color: #ffd966;
+  font-size: 1.3rem;
+}
+#close-cheat-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+}
+#close-cheat-btn:hover { opacity: 1; }
+.cheat-list {
+  padding-left: 24px;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+.cheat-list li {
+  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.cheat-list li strong {
+  color: #fff;
+  font-size: 1.05rem;
+  display: block;
+  margin-bottom: 2px;
 }
