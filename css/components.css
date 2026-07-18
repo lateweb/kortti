@@ -127,7 +127,6 @@
   height: auto;
   background: rgba(255, 255, 255, 0.04);
   border-radius: 6px;
-  /* Replaced physical border with an inset shadow so bounding boxes match internal cards exactly! */
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15); 
   display: flex;
   align-items: center;
@@ -150,17 +149,36 @@
   white-space: nowrap;
 }
 
-#stock-pile { cursor: pointer; }
+/* Stock pile deck stack */
+#stock-pile {
+  cursor: pointer;
+  overflow: visible; /* allow cards to protrude slightly */
+}
+
 #stock-pile:hover {
   background: rgba(255, 255, 255, 0.07);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
+
 #stock-pile:active { transform: scale(0.94); }
 
-#stock-pile .card-back {
+.deck-stack {
+  position: relative;
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+}
+
+.deck-stack .card-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s;
+  will-change: transform, opacity;
+}
+
+.deck-stack .card-wrapper.deck-card-removing {
+  transform: translateY(-15px) scale(0.95);
+  opacity: 0;
 }
 
 #stock-pile.disabled {
@@ -169,7 +187,10 @@
   pointer-events: none;
 }
 
-#stock-pile.disabled .card-back { display: none; }
+#stock-pile.disabled .deck-stack {
+  display: none;            /* hides cards, lets the “Tyhjä” after element show */
+}
+
 #stock-pile.disabled::after {
   content: "Tyhjä";
   position: absolute;
@@ -183,6 +204,7 @@
   text-transform: uppercase;
 }
 
+/* Waste pile */
 #waste-pile { cursor: pointer; }
 #waste-pile:hover {
   background: rgba(255, 200, 100, 0.05);
@@ -199,15 +221,6 @@
   width: 100%;
   height: 100%;
   transition: transform 0.1s ease;
-}
-
-@keyframes useless-shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px) rotate(-4deg); }
-  40%, 80% { transform: translateX(5px) rotate(4deg); }
-}
-.shake {
-  animation: useless-shake 0.5s ease-in-out;
 }
 
 /* Settings Modal */
