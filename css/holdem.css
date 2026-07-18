@@ -3,9 +3,11 @@
   background: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(4px);
   border-radius: 20px;
-  padding: 16px 20px 28px;
+  padding: 16px 20px 20px;
   width: 100%;
-  max-width: 750px; /* Kasvatettu tilaa isoille korteille tietokoneella */
+  max-width: 750px;
+  max-height: 100%; /* Estää säiliötä kasvamasta yli ruudun */
+  overflow-y: auto; /* Lisää vierityspalkin vain tarvittaessa */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
@@ -16,7 +18,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   position: relative;
   flex-shrink: 0;
   width: 100%;
@@ -59,13 +61,13 @@ header h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
   width: 100%;
 }
 
 #holdem-info {
   text-align: center;
-  min-height: 85px;
+  min-height: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -110,10 +112,10 @@ header h1 {
 
 #community-area {
   display: flex;
-  gap: 10px;
-  min-height: 120px;
+  gap: 8px;
+  min-height: 90px;
   background: rgba(0,0,0,0.2);
-  padding: 16px;
+  padding: 12px;
   border-radius: 12px;
   justify-content: center;
   align-items: center;
@@ -123,14 +125,14 @@ header h1 {
 #players-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 12px;
   width: 100%;
 }
 
 .holdem-player {
   background: rgba(0,0,0,0.2);
   border-radius: 12px;
-  padding: 16px;
+  padding: 10px;
   cursor: pointer;
   border: 3px solid transparent;
   transition: all 0.2s;
@@ -146,15 +148,15 @@ header h1 {
 
 .holdem-cards {
   display: flex;
-  gap: 6px;
+  gap: 4px;
 }
 
-/* KORTTIEN UUSI KOKO */
+/* KORTTIEN UUSI KOKO - FIKSATTU TYÖPÖYDÄLLE */
 .holdem-cards .card-wrapper, 
 #community-area .card-wrapper {
   position: relative;
-  /* Minimi 45px (todella kapeat näytöt), joustavasti 14vw mukana kasvaen, Maksimi 100px (isot ruudut) */
-  width: clamp(45px, 14vw, 100px);
+  /* min(14vw, 11vh) varmistaa, että lyhyellä mutta leveällä näytöllä kortit eivät pursua pystysuunnassa yli */
+  width: clamp(40px, min(14vw, 11vh), 90px);
   aspect-ratio: 52/74;
   height: auto;
   transform: none !important;
@@ -243,9 +245,8 @@ header h1 {
 /* MOBIILIOPTIMOINTI KORTEILLE */
 @media (max-width: 600px) {
   #players-grid {
-    /* Pudotetaan 3 saraketta 2 sarakkeeseen mobiilissa, jotta kortit voivat olla isoja! */
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
   .holdem-player {
     padding: 10px;
@@ -254,8 +255,13 @@ header h1 {
     gap: 4px;
   }
   #community-area {
-    padding: 12px;
+    padding: 10px;
     gap: 6px;
-    min-height: 90px;
+    min-height: 80px;
+  }
+  .holdem-cards .card-wrapper, 
+  #community-area .card-wrapper {
+    /* Poistetaan vh-rajoite mobiilissa, koska ruudut ovat pystysuuntaisia */
+    width: clamp(45px, 15vw, 90px);
   }
 }
