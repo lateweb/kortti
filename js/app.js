@@ -58,12 +58,9 @@
   }
 
   window.game.newGame = async function() {
-    if (window.game.isAnimating) return; // Estetään uuden pelin roskapainallukset animaation aikana
+    if (window.game.isAnimating) return;
     
-    // Estetään kosketus ja interaktiot siksi aikaa, kun kortit kerätään
     window.game.gameOver = true;
-
-    // Kerätään olemassa olevat kortit takaisin pakkaan
     await window.game.gatherCards();
 
     overlayEl.classList.remove('show', 'win', 'lose');
@@ -83,6 +80,9 @@
     const full = window.game.shuffle(window.game.generateDeck());
     const pyramidData = full.slice(0, 15);
     window.game.stock = full.slice(15, 52);
+
+    // ----- NEW: populate the deck stack immediately -----
+    window.game.initDeckUI();
 
     preloadCards(full);
 
