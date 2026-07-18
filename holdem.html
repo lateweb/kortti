@@ -1,0 +1,38 @@
+<!-- holdem.html -->
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Hold'em -Käsivisa</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/holdem.css" />
+</head>
+<body>
+  <div id="app" class="holdem-app">
+    <header>
+      <a href="index.html" class="back-btn" title="Takaisin">⬅</a>
+      <h1>Hold'em -Käsivisa</h1>
+    </header>
+
+    <main id="holdem-main">
+      <div id="holdem-info">
+        <h2 id="holdem-msg">Valitse vahvin käsi</h2>
+        <button id="next-round-btn" class="hidden">Uusi kierros</button>
+      </div>
+      
+      <div id="community-area"></div>
+      
+      <div id="players-grid"></div>
+    </main>
+  </div>
+
+  <script src="js/constants.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/deck.js"></script>
+  <script src="js/dom-utils.js"></script>
+  <script src="js/poker-eval.js"></script>
+  <script src="js/holdem.js"></script>
+</body>
+</html>
