@@ -1,5 +1,5 @@
 /* css/components.css */
-#settings-btn, #new-game-btn {
+#settings-btn, #new-game-btn, .back-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -18,13 +18,15 @@
   transition: background 0.15s, transform 0.08s;
   padding: 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  text-decoration: none;
 }
 
 #new-game-btn { right: 4px; }
-#settings-btn { left: 4px; font-size: 1.2rem; }
+.back-btn { left: 4px; font-size: 1.2rem; }
+#settings-btn { left: 48px; font-size: 1.2rem; } /* Siirretään asetusnappia oikealle takaisin-napin tieltä */
 
-#settings-btn:hover, #new-game-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-50%) scale(1.1); }
-#settings-btn:active, #new-game-btn:active { transform: translateY(-50%) scale(0.9); }
+#settings-btn:hover, #new-game-btn:hover, .back-btn:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-50%) scale(1.1); }
+#settings-btn:active, #new-game-btn:active, .back-btn:active { transform: translateY(-50%) scale(0.9); }
 
 .card-wrapper {
   perspective: 500px;
