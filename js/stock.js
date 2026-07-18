@@ -9,39 +9,54 @@
   // ---------------------------------------------------------------
   //  Deck visualisation
   // ---------------------------------------------------------------
-  function renderDeck() {
-    const remaining = window.game.stock.length - window.game.stockIndex;
-    deckStack.innerHTML = '';
-    if (remaining === 0) return;
-
+  
+  // Päivittää jo olemassa olevien elementtien paikat sulavasti
+  function updateDeckVisuals(instant = false) {
+    const cards = Array.from(deckStack.children);
+    const N = cards.length;
     const maxVisibleOffset = 5;      
     const offsetStep = 2;            
 
-    // Käännettiin silmukan järjestys, jotta pakan päällimmäinen kortti 
-    // lisätään DOM:iin viimeisenä, se saa suurimman z-indeksin, eikä 
-    // omista siirtymää (offsetia). Alimmat kortit siirretään hieman alas ja oikealle.
-    for (let i = remaining - 1; i >= 0; i--) {
+    cards.forEach((card, c) => {
+      // Pysäytetään animaatio heti, jos halutaan välitön asetus (esim. pelin alussa)
+      if (instant) card.style.transition = 'none';
+      
+      const i = (N - 1) - c; // Etäisyys pakan päältä (0 on päällimmäisin)
       const offset = Math.min(i, maxVisibleOffset) * offsetStep;
       
+      card.style.zIndex = c;
+      card.style.transform = `translate(${offset}px, ${offset}px)`;
+      
+      if (c === N - 1) {
+        card.classList.add('deck-top');
+      } else {
+        card.classList.remove('deck-top');
+      }
+    });
+
+    // Pakotetaan tyylien päivitys ennen kuin animaatiot kytketään takaisin päälle
+    if (instant) {
+      void deckStack.offsetWidth;
+      cards.forEach(card => card.style.transition = '');
+    }
+  }
+
+  // Luodaan kortit vain kerran ja tallennetaan ne DOM:iin
+  window.game.initDeckUI = function() {
+    deckStack.innerHTML = '';
+    const remaining = window.game.stock.length - window.game.stockIndex;
+    
+    for (let i = 0; i < remaining; i++) {
       const dummy = { rank: 0, suit: '', code: 'deck', front: '', back: BACK_IMG };
       const wrapper = window.game.createCardElement(dummy, false);
       wrapper.classList.add('deck-card');
       wrapper.style.position = 'absolute';
       wrapper.style.width = '100%';
       wrapper.style.height = '100%';
-      wrapper.style.zIndex = remaining - i;
-      wrapper.style.transform = `translate(${offset}px, ${offset}px)`;
-      wrapper.style.transition = 'transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s';
       deckStack.appendChild(wrapper);
     }
-
-    // Merkitään pakan ylin kortti, joka on nyt DOM:n viimeinen lapsielementti.
-    const topCard = deckStack.lastElementChild;
-    if (topCard) topCard.classList.add('deck-top');
-  }
-
-  window.game.initDeckUI = function() {
-    renderDeck();
+    
+    updateDeckVisuals(true);
   };
 
   // ---------------------------------------------------------------
@@ -104,6 +119,10 @@
         topCard.addEventListener('transitionend', onEnd);
         setTimeout(resolve, 300);
       });
+      // Poistetaan vain uloin kortti
+      topCard.remove();
+      // Liu'utetaan alemmat kortit nätisti uusiin asemiin
+      updateDeckVisuals(false);
     }
 
     if (window.game.waste) {
@@ -125,8 +144,6 @@
       wasteWrapper.style.transition = 'none';
       wasteWrapper.style.opacity = '1';
     }
-
-    renderDeck();
 
     if (window.game.stockIndex >= window.game.stock.length) {
       stockPileEl.classList.add('disabled');
