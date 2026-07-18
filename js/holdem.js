@@ -7,11 +7,20 @@
   let community = [];
   let winners = [];
   let gameOver = false;
+  let currentBestScore = [];
 
   const communityEl = document.getElementById('community-area');
   const playersEl = document.getElementById('players-grid');
   const nextBtn = document.getElementById('next-round-btn');
   const msgEl = document.getElementById('holdem-msg');
+  const expEl = document.getElementById('holdem-explanation');
+  
+  const cheatSheetBtn = document.getElementById('cheat-sheet-btn');
+  const closeCheatBtn = document.getElementById('close-cheat-btn');
+  const cheatSheet = document.getElementById('cheat-sheet');
+
+  cheatSheetBtn.addEventListener('click', () => cheatSheet.classList.toggle('open'));
+  closeCheatBtn.addEventListener('click', () => cheatSheet.classList.remove('open'));
 
   function startRound() {
     gameOver = false;
@@ -20,6 +29,8 @@
     
     msgEl.textContent = 'Valitse vahvin käsi';
     msgEl.className = '';
+    expEl.classList.add('hidden');
+    expEl.textContent = '';
     nextBtn.classList.add('hidden');
 
     deck = window.game.shuffle(window.game.generateDeck());
@@ -29,7 +40,6 @@
       players.push([deck.pop(), deck.pop()]);
     }
 
-    // Valitaan pöytäkorttien määrä: 0, 3, 4 tai 5
     const commCountOpts = [0, 3, 4, 5];
     const commCount = commCountOpts[Math.floor(Math.random() * commCountOpts.length)];
     community = [];
@@ -57,6 +67,8 @@
         winners.push(idx);
       }
     });
+    
+    currentBestScore = bestScore;
   }
 
   function render() {
@@ -99,6 +111,11 @@
       msgEl.textContent = 'Väärin! Oikea voittaja on korostettu.';
       msgEl.className = 'msg-wrong';
     }
+    
+    // Paljastetaan voittavan käden kuvaus
+    const handName = window.game.getHandName(currentBestScore);
+    expEl.textContent = (winners.length > 1 ? "Jaettu voittokäsi: " : "Voittokäsi: ") + handName;
+    expEl.classList.remove('hidden');
 
     winners.forEach(w => {
       allPlayers[w].classList.add('winner');
@@ -109,6 +126,5 @@
 
   nextBtn.addEventListener('click', startRound);
 
-  // Käynnistetään peli
   startRound();
 })();
