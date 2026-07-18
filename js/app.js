@@ -73,7 +73,7 @@
     stockPileEl.classList.remove('disabled');
 
     const trashEl = document.getElementById('trash-pile');
-    trashEl.innerHTML = '<span class="pile-label">Roskat</span>';
+    trashEl.innerHTML = '';
     trashEl.classList.add('empty');
     window.game.updateWaste();
 
@@ -81,9 +81,7 @@
     const pyramidData = full.slice(0, 15);
     window.game.stock = full.slice(15, 52);
 
-    // ----- NEW: populate the deck stack immediately -----
     window.game.initDeckUI();
-
     preloadCards(full);
 
     window.game.pyramid = pyramidData.map(c => {
