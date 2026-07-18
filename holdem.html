@@ -14,11 +14,13 @@
     <header>
       <a href="index.html" class="back-btn" title="Takaisin">⬅</a>
       <h1>Hold'em -Käsivisa</h1>
+      <button id="cheat-sheet-btn" title="Käsijärjestys">📜</button>
     </header>
 
     <main id="holdem-main">
       <div id="holdem-info">
         <h2 id="holdem-msg">Valitse vahvin käsi</h2>
+        <div id="holdem-explanation" class="hidden"></div>
         <button id="next-round-btn" class="hidden">Uusi kierros</button>
       </div>
       
@@ -26,6 +28,26 @@
       
       <div id="players-grid"></div>
     </main>
+  </div>
+
+  <!-- Lunttilappu (Cheat Sheet) -->
+  <div id="cheat-sheet" class="hidden-panel">
+    <div class="cheat-header">
+      <h3>Käsijärjestys</h3>
+      <button id="close-cheat-btn" title="Sulje">✖</button>
+    </div>
+    <ol class="cheat-list">
+      <li><strong>Kuningasvärisuora</strong><br/>A, K, Q, J, 10 samaa maata</li>
+      <li><strong>Värisuora</strong><br/>5 peräkkäistä samaa maata</li>
+      <li><strong>Neloset</strong><br/>4 samaa numeroa</li>
+      <li><strong>Täyskäsi</strong><br/>Kolmoset ja pari</li>
+      <li><strong>Väri</strong><br/>5 mitä tahansa samaa maata</li>
+      <li><strong>Suora</strong><br/>5 peräkkäistä eri maata</li>
+      <li><strong>Kolmoset</strong><br/>3 samaa numeroa</li>
+      <li><strong>Kaksi paria</strong><br/>Kaksi eri paria</li>
+      <li><strong>Pari</strong><br/>2 samaa numeroa</li>
+      <li><strong>Hai</strong><br/>Korkein yksittäinen kortti</li>
+    </ol>
   </div>
 
   <script src="js/constants.js"></script>
