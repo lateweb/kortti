@@ -1,11 +1,15 @@
 # docs/file-tree.txt
-pyramidipasianssi/
+kortti/
 ├── index.html
+├── pyramid.html
+├── holdem.html
 ├── css/
 │   ├── base.css
 │   ├── components.css
 │   ├── layout.css
-│   └── styles.css
+│   ├── styles.css
+│   ├── portal.css
+│   └── holdem.css
 ├── js/
 │   ├── app.js
 │   ├── constants.js
@@ -16,6 +20,8 @@ pyramidipasianssi/
 │   ├── position.js
 │   ├── selection.js
 │   ├── state.js
-│   └── stock.js
+│   ├── stock.js
+│   ├── poker-eval.js
+│   └── holdem.js
 └── docs/
     └── file-tree.txt
