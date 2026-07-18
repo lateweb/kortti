@@ -9,8 +9,6 @@
   // ---------------------------------------------------------------
   //  Deck visualisation
   // ---------------------------------------------------------------
-  
-  // Päivittää jo olemassa olevien elementtien paikat sulavasti
   function updateDeckVisuals(instant = false) {
     const cards = Array.from(deckStack.children);
     const N = cards.length;
@@ -18,10 +16,9 @@
     const offsetStep = 2;            
 
     cards.forEach((card, c) => {
-      // Pysäytetään animaatio heti, jos halutaan välitön asetus (esim. pelin alussa)
       if (instant) card.style.transition = 'none';
       
-      const i = (N - 1) - c; // Etäisyys pakan päältä (0 on päällimmäisin)
+      const i = (N - 1) - c; 
       const offset = Math.min(i, maxVisibleOffset) * offsetStep;
       
       card.style.zIndex = c;
@@ -34,14 +31,12 @@
       }
     });
 
-    // Pakotetaan tyylien päivitys ennen kuin animaatiot kytketään takaisin päälle
     if (instant) {
       void deckStack.offsetWidth;
       cards.forEach(card => card.style.transition = '');
     }
   }
 
-  // Luodaan kortit vain kerran ja tallennetaan ne DOM:iin
   window.game.initDeckUI = function() {
     deckStack.innerHTML = '';
     const remaining = window.game.stock.length - window.game.stockIndex;
@@ -119,9 +114,7 @@
         topCard.addEventListener('transitionend', onEnd);
         setTimeout(resolve, 300);
       });
-      // Poistetaan vain uloin kortti
       topCard.remove();
-      // Liu'utetaan alemmat kortit nätisti uusiin asemiin
       updateDeckVisuals(false);
     }
 
@@ -181,6 +174,16 @@
     }
 
     window.game.clearAllHighlights();
+
+    // KÄDEN KUNINGAS-LOGIIKKA: Poistetaan käden kuningas yhdellä klikkauksella
+    if (window.game.waste.rank === 13) {
+      window.game.isAnimating = true;
+      window.game.moveWasteToTrash().then(() => {
+        window.game.isAnimating = false;
+        window.game.postMoveCheck();
+      });
+      return;
+    }
 
     const target = 13 - window.game.waste.rank;
     const exposed = window.game.getExposed();
